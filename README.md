@@ -64,7 +64,7 @@ This contract acts as an on-chain proof verifier for the state of the reference 
 
 <img src="/readme/storage-verifier.png">
 
-## 🛠 User Operation verification on destination chain
+## 🛠 ERC7579 compliant Validator verificaties userops on destination chain
 
 This module must be enabled on the user's smart account to support cross-chain signer verification. When a UserOperation is received, the validator extracts a SignatureData structure containing:
 A standard ECDSA signature from a key registered in the keystore,
