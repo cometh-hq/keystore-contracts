@@ -1,0 +1,656 @@
+{
+  "address": "0x37752C7758DdD62c9F5Be635e79a40c2AaC57881",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_endpoint",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidDelegate",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidEndpointCall",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "eid",
+          "type": "uint32"
+        }
+      ],
+      "name": "NoPeer",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "OnlyEndpoint",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "eid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sender",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OnlyPeer",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "eid",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "peer",
+          "type": "bytes32"
+        }
+      ],
+      "name": "PeerSet",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "origin",
+          "type": "tuple"
+        }
+      ],
+      "name": "allowInitializePath",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "blockNumber",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "endpoint",
+      "outputs": [
+        {
+          "internalType": "contract ILayerZeroEndpointV2",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        },
+        {
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        }
+      ],
+      "name": "isComposeMsgSender",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "_origin",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_guid",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_message",
+          "type": "bytes"
+        },
+        {
+          "internalType": "address",
+          "name": "_executor",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_extraData",
+          "type": "bytes"
+        }
+      ],
+      "name": "lzReceive",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "nextNonce",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "nonce",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "oAppVersion",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "senderVersion",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "receiverVersion",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "eid",
+          "type": "uint32"
+        }
+      ],
+      "name": "peers",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "peer",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_delegate",
+          "type": "address"
+        }
+      ],
+      "name": "setDelegate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_eid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_peer",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setPeer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stateRoot",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stateRootProof",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "stateRoot",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "blockNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "blockHash",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "args": [
+    "0x18917FD80068c7db1117B9cAFbF9eEb9fF29be08",
+    "0x6EDCE65403992e310A62460808c4b910D972f10f"
+  ],
+  "numDeployments": 6,
+  "solcInputHash": "a2256d1b4f82ccf0712f22186db34352",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_endpoint\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"InvalidDelegate\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidEndpointCall\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"eid\",\"type\":\"uint32\"}],\"name\":\"NoPeer\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"OnlyEndpoint\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"eid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"}],\"name\":\"OnlyPeer\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"eid\",\"type\":\"uint32\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"peer\",\"type\":\"bytes32\"}],\"name\":\"PeerSet\",\"type\":\"event\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"origin\",\"type\":\"tuple\"}],\"name\":\"allowInitializePath\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"blockNumber\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"endpoint\",\"outputs\":[{\"internalType\":\"contract ILayerZeroEndpointV2\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"_sender\",\"type\":\"address\"}],\"name\":\"isComposeMsgSender\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"_origin\",\"type\":\"tuple\"},{\"internalType\":\"bytes32\",\"name\":\"_guid\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"_message\",\"type\":\"bytes\"},{\"internalType\":\"address\",\"name\":\"_executor\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"_extraData\",\"type\":\"bytes\"}],\"name\":\"lzReceive\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"nextNonce\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"oAppVersion\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"senderVersion\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"receiverVersion\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"eid\",\"type\":\"uint32\"}],\"name\":\"peers\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"peer\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_delegate\",\"type\":\"address\"}],\"name\":\"setDelegate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_eid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"_peer\",\"type\":\"bytes32\"}],\"name\":\"setPeer\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stateRoot\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stateRootProof\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"stateRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"blockHash\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"allowInitializePath((uint32,bytes32,uint64))\":{\"details\":\"This indicates to the endpoint that the OApp has enabled msgs for this particular path to be received.This defaults to assuming if a peer has been set, its initialized. Can be overridden by the OApp if there is other logic to determine this.\",\"params\":{\"origin\":\"The origin information containing the source endpoint and sender address.\"},\"returns\":{\"_0\":\"Whether the path has been initialized.\"}},\"isComposeMsgSender((uint32,bytes32,uint64),bytes,address)\":{\"details\":\"_origin The origin information containing the source endpoint and sender address.  - srcEid: The source chain endpoint ID.  - sender: The sender address on the src chain.  - nonce: The nonce of the message._message The lzReceive payload.Applications can optionally choose to implement separate composeMsg senders that are NOT the bridging layer.The default sender IS the OAppReceiver implementer.\",\"params\":{\"_sender\":\"The sender address.\"},\"returns\":{\"_0\":\"isSender Is a valid sender.\"}},\"lzReceive((uint32,bytes32,uint64),bytes32,bytes,address,bytes)\":{\"details\":\"Entry point for receiving messages or packets from the endpoint.Entry point for receiving msg/packet from the LayerZero endpoint.\",\"params\":{\"_executor\":\"The address of the executor for the received message.\",\"_extraData\":\"Additional arbitrary data provided by the corresponding executor.\",\"_guid\":\"The unique identifier for the received LayerZero message.\",\"_message\":\"The payload of the received message.\",\"_origin\":\"The origin information containing the source endpoint and sender address.  - srcEid: The source chain endpoint ID.  - sender: The sender address on the src chain.  - nonce: The nonce of the message.\"}},\"nextNonce(uint32,bytes32)\":{\"details\":\"_srcEid The source endpoint ID._sender The sender address.The path nonce starts from 1. If 0 is returned it means that there is NO nonce ordered enforcement.Is required by the off-chain executor to determine the OApp expects msg execution is ordered.This is also enforced by the OApp.By default this is NOT enabled. ie. nextNonce is hardcoded to return 0.\",\"returns\":{\"nonce\":\"The next nonce.\"}},\"oAppVersion()\":{\"details\":\"Providing 0 as the default for OAppSender version. Indicates that the OAppSender is not implemented. ie. this is a RECEIVE only OApp.If the OApp uses both OAppSender and OAppReceiver, then this needs to be override returning the correct versions.\",\"returns\":{\"receiverVersion\":\"The version of the OAppReceiver.sol contract.\",\"senderVersion\":\"The version of the OAppSender.sol contract.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"setDelegate(address)\":{\"details\":\"Only the owner/admin of the OApp can call this function.Provides the ability for a delegate to set configs, on behalf of the OApp, directly on the Endpoint contract.\",\"params\":{\"_delegate\":\"The address of the delegate to be set.\"}},\"setPeer(uint32,bytes32)\":{\"details\":\"Only the owner/admin of the OApp can call this function.Indicates that the peer is trusted to send LayerZero messages to this OApp.Set this to bytes32(0) to remove the peer address.Peer is a bytes32 to accommodate non-evm chains.\",\"params\":{\"_eid\":\"The endpoint ID.\",\"_peer\":\"The address of the peer to be associated with the corresponding endpoint.\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"allowInitializePath((uint32,bytes32,uint64))\":{\"notice\":\"Checks if the path initialization is allowed based on the provided origin.\"},\"endpoint()\":{\"notice\":\"Retrieves the LayerZero endpoint associated with the OApp.\"},\"isComposeMsgSender((uint32,bytes32,uint64),bytes,address)\":{\"notice\":\"Indicates whether an address is an approved composeMsg sender to the Endpoint.\"},\"nextNonce(uint32,bytes32)\":{\"notice\":\"Retrieves the next nonce for a given source endpoint and sender address.\"},\"oAppVersion()\":{\"notice\":\"Retrieves the OApp version information.\"},\"peers(uint32)\":{\"notice\":\"Retrieves the peer (OApp) associated with a corresponding endpoint.\"},\"setDelegate(address)\":{\"notice\":\"Sets the delegate address for the OApp.\"},\"setPeer(uint32,bytes32)\":{\"notice\":\"Sets the peer address (OApp instance) for a corresponding endpoint.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/StateRootStorage.sol\":\"StateRootStorage\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nimport { IMessageLibManager } from \\\"./IMessageLibManager.sol\\\";\\nimport { IMessagingComposer } from \\\"./IMessagingComposer.sol\\\";\\nimport { IMessagingChannel } from \\\"./IMessagingChannel.sol\\\";\\nimport { IMessagingContext } from \\\"./IMessagingContext.sol\\\";\\n\\nstruct MessagingParams {\\n    uint32 dstEid;\\n    bytes32 receiver;\\n    bytes message;\\n    bytes options;\\n    bool payInLzToken;\\n}\\n\\nstruct MessagingReceipt {\\n    bytes32 guid;\\n    uint64 nonce;\\n    MessagingFee fee;\\n}\\n\\nstruct MessagingFee {\\n    uint256 nativeFee;\\n    uint256 lzTokenFee;\\n}\\n\\nstruct Origin {\\n    uint32 srcEid;\\n    bytes32 sender;\\n    uint64 nonce;\\n}\\n\\ninterface ILayerZeroEndpointV2 is IMessageLibManager, IMessagingComposer, IMessagingChannel, IMessagingContext {\\n    event PacketSent(bytes encodedPayload, bytes options, address sendLibrary);\\n\\n    event PacketVerified(Origin origin, address receiver, bytes32 payloadHash);\\n\\n    event PacketDelivered(Origin origin, address receiver);\\n\\n    event LzReceiveAlert(\\n        address indexed receiver,\\n        address indexed executor,\\n        Origin origin,\\n        bytes32 guid,\\n        uint256 gas,\\n        uint256 value,\\n        bytes message,\\n        bytes extraData,\\n        bytes reason\\n    );\\n\\n    event LzTokenSet(address token);\\n\\n    event DelegateSet(address sender, address delegate);\\n\\n    function quote(MessagingParams calldata _params, address _sender) external view returns (MessagingFee memory);\\n\\n    function send(\\n        MessagingParams calldata _params,\\n        address _refundAddress\\n    ) external payable returns (MessagingReceipt memory);\\n\\n    function verify(Origin calldata _origin, address _receiver, bytes32 _payloadHash) external;\\n\\n    function verifiable(Origin calldata _origin, address _receiver) external view returns (bool);\\n\\n    function initializable(Origin calldata _origin, address _receiver) external view returns (bool);\\n\\n    function lzReceive(\\n        Origin calldata _origin,\\n        address _receiver,\\n        bytes32 _guid,\\n        bytes calldata _message,\\n        bytes calldata _extraData\\n    ) external payable;\\n\\n    // oapp can burn messages partially by calling this function with its own business logic if messages are verified in order\\n    function clear(address _oapp, Origin calldata _origin, bytes32 _guid, bytes calldata _message) external;\\n\\n    function setLzToken(address _lzToken) external;\\n\\n    function lzToken() external view returns (address);\\n\\n    function nativeToken() external view returns (address);\\n\\n    function setDelegate(address _delegate) external;\\n}\\n\",\"keccak256\":\"0xf7f941bee89ea6369950fe54e8ac476ae6478b958b20fc0e8a83e8ff1364eac3\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nimport { Origin } from \\\"./ILayerZeroEndpointV2.sol\\\";\\n\\ninterface ILayerZeroReceiver {\\n    function allowInitializePath(Origin calldata _origin) external view returns (bool);\\n\\n    function nextNonce(uint32 _eid, bytes32 _sender) external view returns (uint64);\\n\\n    function lzReceive(\\n        Origin calldata _origin,\\n        bytes32 _guid,\\n        bytes calldata _message,\\n        address _executor,\\n        bytes calldata _extraData\\n    ) external payable;\\n}\\n\",\"keccak256\":\"0x9641abba8d53b08bb517d1b74801dd15ea7b84d77a6719085bd96c8ea94e3ca0\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nstruct SetConfigParam {\\n    uint32 eid;\\n    uint32 configType;\\n    bytes config;\\n}\\n\\ninterface IMessageLibManager {\\n    struct Timeout {\\n        address lib;\\n        uint256 expiry;\\n    }\\n\\n    event LibraryRegistered(address newLib);\\n    event DefaultSendLibrarySet(uint32 eid, address newLib);\\n    event DefaultReceiveLibrarySet(uint32 eid, address newLib);\\n    event DefaultReceiveLibraryTimeoutSet(uint32 eid, address oldLib, uint256 expiry);\\n    event SendLibrarySet(address sender, uint32 eid, address newLib);\\n    event ReceiveLibrarySet(address receiver, uint32 eid, address newLib);\\n    event ReceiveLibraryTimeoutSet(address receiver, uint32 eid, address oldLib, uint256 timeout);\\n\\n    function registerLibrary(address _lib) external;\\n\\n    function isRegisteredLibrary(address _lib) external view returns (bool);\\n\\n    function getRegisteredLibraries() external view returns (address[] memory);\\n\\n    function setDefaultSendLibrary(uint32 _eid, address _newLib) external;\\n\\n    function defaultSendLibrary(uint32 _eid) external view returns (address);\\n\\n    function setDefaultReceiveLibrary(uint32 _eid, address _newLib, uint256 _gracePeriod) external;\\n\\n    function defaultReceiveLibrary(uint32 _eid) external view returns (address);\\n\\n    function setDefaultReceiveLibraryTimeout(uint32 _eid, address _lib, uint256 _expiry) external;\\n\\n    function defaultReceiveLibraryTimeout(uint32 _eid) external view returns (address lib, uint256 expiry);\\n\\n    function isSupportedEid(uint32 _eid) external view returns (bool);\\n\\n    function isValidReceiveLibrary(address _receiver, uint32 _eid, address _lib) external view returns (bool);\\n\\n    /// ------------------- OApp interfaces -------------------\\n    function setSendLibrary(address _oapp, uint32 _eid, address _newLib) external;\\n\\n    function getSendLibrary(address _sender, uint32 _eid) external view returns (address lib);\\n\\n    function isDefaultSendLibrary(address _sender, uint32 _eid) external view returns (bool);\\n\\n    function setReceiveLibrary(address _oapp, uint32 _eid, address _newLib, uint256 _gracePeriod) external;\\n\\n    function getReceiveLibrary(address _receiver, uint32 _eid) external view returns (address lib, bool isDefault);\\n\\n    function setReceiveLibraryTimeout(address _oapp, uint32 _eid, address _lib, uint256 _expiry) external;\\n\\n    function receiveLibraryTimeout(address _receiver, uint32 _eid) external view returns (address lib, uint256 expiry);\\n\\n    function setConfig(address _oapp, address _lib, SetConfigParam[] calldata _params) external;\\n\\n    function getConfig(\\n        address _oapp,\\n        address _lib,\\n        uint32 _eid,\\n        uint32 _configType\\n    ) external view returns (bytes memory config);\\n}\\n\",\"keccak256\":\"0x919b37133adff4dc528e3061deb2789c3149971b530c61e556fb3d09ab315dfc\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingChannel.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingChannel {\\n    event InboundNonceSkipped(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce);\\n    event PacketNilified(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce, bytes32 payloadHash);\\n    event PacketBurnt(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce, bytes32 payloadHash);\\n\\n    function eid() external view returns (uint32);\\n\\n    // this is an emergency function if a message cannot be verified for some reasons\\n    // required to provide _nextNonce to avoid race condition\\n    function skip(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce) external;\\n\\n    function nilify(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce, bytes32 _payloadHash) external;\\n\\n    function burn(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce, bytes32 _payloadHash) external;\\n\\n    function nextGuid(address _sender, uint32 _dstEid, bytes32 _receiver) external view returns (bytes32);\\n\\n    function inboundNonce(address _receiver, uint32 _srcEid, bytes32 _sender) external view returns (uint64);\\n\\n    function outboundNonce(address _sender, uint32 _dstEid, bytes32 _receiver) external view returns (uint64);\\n\\n    function inboundPayloadHash(\\n        address _receiver,\\n        uint32 _srcEid,\\n        bytes32 _sender,\\n        uint64 _nonce\\n    ) external view returns (bytes32);\\n\\n    function lazyInboundNonce(address _receiver, uint32 _srcEid, bytes32 _sender) external view returns (uint64);\\n}\\n\",\"keccak256\":\"0x0878f64dffebf58c4165569416372f40860fab546b88cd926eba0d5cb6d8d972\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingComposer.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingComposer {\\n    event ComposeSent(address from, address to, bytes32 guid, uint16 index, bytes message);\\n    event ComposeDelivered(address from, address to, bytes32 guid, uint16 index);\\n    event LzComposeAlert(\\n        address indexed from,\\n        address indexed to,\\n        address indexed executor,\\n        bytes32 guid,\\n        uint16 index,\\n        uint256 gas,\\n        uint256 value,\\n        bytes message,\\n        bytes extraData,\\n        bytes reason\\n    );\\n\\n    function composeQueue(\\n        address _from,\\n        address _to,\\n        bytes32 _guid,\\n        uint16 _index\\n    ) external view returns (bytes32 messageHash);\\n\\n    function sendCompose(address _to, bytes32 _guid, uint16 _index, bytes calldata _message) external;\\n\\n    function lzCompose(\\n        address _from,\\n        address _to,\\n        bytes32 _guid,\\n        uint16 _index,\\n        bytes calldata _message,\\n        bytes calldata _extraData\\n    ) external payable;\\n}\\n\",\"keccak256\":\"0x85bc7090134529ec474866dc4bb1c48692d518c756eb0a961c82574829c51901\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingContext.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingContext {\\n    function isSendingMessage() external view returns (bool);\\n\\n    function getSendContext() external view returns (uint32 dstEid, address sender);\\n}\\n\",\"keccak256\":\"0xff0c546c2813dae3e440882f46b377375f7461b0714efd80bd3f0c6e5cb8da4e\",\"license\":\"MIT\"},\"@layerzerolabs/oapp-evm/contracts/oapp/OAppCore.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.20;\\n\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport { IOAppCore, ILayerZeroEndpointV2 } from \\\"./interfaces/IOAppCore.sol\\\";\\n\\n/**\\n * @title OAppCore\\n * @dev Abstract contract implementing the IOAppCore interface with basic OApp configurations.\\n */\\nabstract contract OAppCore is IOAppCore, Ownable {\\n    // The LayerZero endpoint associated with the given OApp\\n    ILayerZeroEndpointV2 public immutable endpoint;\\n\\n    // Mapping to store peers associated with corresponding endpoints\\n    mapping(uint32 eid => bytes32 peer) public peers;\\n\\n    /**\\n     * @dev Constructor to initialize the OAppCore with the provided endpoint and delegate.\\n     * @param _endpoint The address of the LOCAL Layer Zero endpoint.\\n     * @param _delegate The delegate capable of making OApp configurations inside of the endpoint.\\n     *\\n     * @dev The delegate typically should be set as the owner of the contract.\\n     */\\n    constructor(address _endpoint, address _delegate) {\\n        endpoint = ILayerZeroEndpointV2(_endpoint);\\n\\n        if (_delegate == address(0)) revert InvalidDelegate();\\n        endpoint.setDelegate(_delegate);\\n    }\\n\\n    /**\\n     * @notice Sets the peer address (OApp instance) for a corresponding endpoint.\\n     * @param _eid The endpoint ID.\\n     * @param _peer The address of the peer to be associated with the corresponding endpoint.\\n     *\\n     * @dev Only the owner/admin of the OApp can call this function.\\n     * @dev Indicates that the peer is trusted to send LayerZero messages to this OApp.\\n     * @dev Set this to bytes32(0) to remove the peer address.\\n     * @dev Peer is a bytes32 to accommodate non-evm chains.\\n     */\\n    function setPeer(uint32 _eid, bytes32 _peer) public virtual onlyOwner {\\n        _setPeer(_eid, _peer);\\n    }\\n\\n    /**\\n     * @notice Sets the peer address (OApp instance) for a corresponding endpoint.\\n     * @param _eid The endpoint ID.\\n     * @param _peer The address of the peer to be associated with the corresponding endpoint.\\n     *\\n     * @dev Indicates that the peer is trusted to send LayerZero messages to this OApp.\\n     * @dev Set this to bytes32(0) to remove the peer address.\\n     * @dev Peer is a bytes32 to accommodate non-evm chains.\\n     */\\n    function _setPeer(uint32 _eid, bytes32 _peer) internal virtual {\\n        peers[_eid] = _peer;\\n        emit PeerSet(_eid, _peer);\\n    }\\n\\n    /**\\n     * @notice Internal function to get the peer address associated with a specific endpoint; reverts if NOT set.\\n     * ie. the peer is set to bytes32(0).\\n     * @param _eid The endpoint ID.\\n     * @return peer The address of the peer associated with the specified endpoint.\\n     */\\n    function _getPeerOrRevert(uint32 _eid) internal view virtual returns (bytes32) {\\n        bytes32 peer = peers[_eid];\\n        if (peer == bytes32(0)) revert NoPeer(_eid);\\n        return peer;\\n    }\\n\\n    /**\\n     * @notice Sets the delegate address for the OApp.\\n     * @param _delegate The address of the delegate to be set.\\n     *\\n     * @dev Only the owner/admin of the OApp can call this function.\\n     * @dev Provides the ability for a delegate to set configs, on behalf of the OApp, directly on the Endpoint contract.\\n     */\\n    function setDelegate(address _delegate) public onlyOwner {\\n        endpoint.setDelegate(_delegate);\\n    }\\n}\\n\",\"keccak256\":\"0x13a9c2d1d2c1f086b8624f2e84c4a4702212daae36f701d92bb915b535cbe4cc\",\"license\":\"MIT\"},\"@layerzerolabs/oapp-evm/contracts/oapp/OAppReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.20;\\n\\nimport { IOAppReceiver, Origin } from \\\"./interfaces/IOAppReceiver.sol\\\";\\nimport { OAppCore } from \\\"./OAppCore.sol\\\";\\n\\n/**\\n * @title OAppReceiver\\n * @dev Abstract contract implementing the ILayerZeroReceiver interface and extending OAppCore for OApp receivers.\\n */\\nabstract contract OAppReceiver is IOAppReceiver, OAppCore {\\n    // Custom error message for when the caller is not the registered endpoint/\\n    error OnlyEndpoint(address addr);\\n\\n    // @dev The version of the OAppReceiver implementation.\\n    // @dev Version is bumped when changes are made to this contract.\\n    uint64 internal constant RECEIVER_VERSION = 2;\\n\\n    /**\\n     * @notice Retrieves the OApp version information.\\n     * @return senderVersion The version of the OAppSender.sol contract.\\n     * @return receiverVersion The version of the OAppReceiver.sol contract.\\n     *\\n     * @dev Providing 0 as the default for OAppSender version. Indicates that the OAppSender is not implemented.\\n     * ie. this is a RECEIVE only OApp.\\n     * @dev If the OApp uses both OAppSender and OAppReceiver, then this needs to be override returning the correct versions.\\n     */\\n    function oAppVersion() public view virtual returns (uint64 senderVersion, uint64 receiverVersion) {\\n        return (0, RECEIVER_VERSION);\\n    }\\n\\n    /**\\n     * @notice Indicates whether an address is an approved composeMsg sender to the Endpoint.\\n     * @dev _origin The origin information containing the source endpoint and sender address.\\n     *  - srcEid: The source chain endpoint ID.\\n     *  - sender: The sender address on the src chain.\\n     *  - nonce: The nonce of the message.\\n     * @dev _message The lzReceive payload.\\n     * @param _sender The sender address.\\n     * @return isSender Is a valid sender.\\n     *\\n     * @dev Applications can optionally choose to implement separate composeMsg senders that are NOT the bridging layer.\\n     * @dev The default sender IS the OAppReceiver implementer.\\n     */\\n    function isComposeMsgSender(\\n        Origin calldata /*_origin*/,\\n        bytes calldata /*_message*/,\\n        address _sender\\n    ) public view virtual returns (bool) {\\n        return _sender == address(this);\\n    }\\n\\n    /**\\n     * @notice Checks if the path initialization is allowed based on the provided origin.\\n     * @param origin The origin information containing the source endpoint and sender address.\\n     * @return Whether the path has been initialized.\\n     *\\n     * @dev This indicates to the endpoint that the OApp has enabled msgs for this particular path to be received.\\n     * @dev This defaults to assuming if a peer has been set, its initialized.\\n     * Can be overridden by the OApp if there is other logic to determine this.\\n     */\\n    function allowInitializePath(Origin calldata origin) public view virtual returns (bool) {\\n        return peers[origin.srcEid] == origin.sender;\\n    }\\n\\n    /**\\n     * @notice Retrieves the next nonce for a given source endpoint and sender address.\\n     * @dev _srcEid The source endpoint ID.\\n     * @dev _sender The sender address.\\n     * @return nonce The next nonce.\\n     *\\n     * @dev The path nonce starts from 1. If 0 is returned it means that there is NO nonce ordered enforcement.\\n     * @dev Is required by the off-chain executor to determine the OApp expects msg execution is ordered.\\n     * @dev This is also enforced by the OApp.\\n     * @dev By default this is NOT enabled. ie. nextNonce is hardcoded to return 0.\\n     */\\n    function nextNonce(uint32 /*_srcEid*/, bytes32 /*_sender*/) public view virtual returns (uint64 nonce) {\\n        return 0;\\n    }\\n\\n    /**\\n     * @dev Entry point for receiving messages or packets from the endpoint.\\n     * @param _origin The origin information containing the source endpoint and sender address.\\n     *  - srcEid: The source chain endpoint ID.\\n     *  - sender: The sender address on the src chain.\\n     *  - nonce: The nonce of the message.\\n     * @param _guid The unique identifier for the received LayerZero message.\\n     * @param _message The payload of the received message.\\n     * @param _executor The address of the executor for the received message.\\n     * @param _extraData Additional arbitrary data provided by the corresponding executor.\\n     *\\n     * @dev Entry point for receiving msg/packet from the LayerZero endpoint.\\n     */\\n    function lzReceive(\\n        Origin calldata _origin,\\n        bytes32 _guid,\\n        bytes calldata _message,\\n        address _executor,\\n        bytes calldata _extraData\\n    ) public payable virtual {\\n        // Ensures that only the endpoint can attempt to lzReceive() messages to this OApp.\\n        if (address(endpoint) != msg.sender) revert OnlyEndpoint(msg.sender);\\n\\n        // Ensure that the sender matches the expected peer for the source endpoint.\\n        if (_getPeerOrRevert(_origin.srcEid) != _origin.sender) revert OnlyPeer(_origin.srcEid, _origin.sender);\\n\\n        // Call the internal OApp implementation of lzReceive.\\n        _lzReceive(_origin, _guid, _message, _executor, _extraData);\\n    }\\n\\n    /**\\n     * @dev Internal function to implement lzReceive logic without needing to copy the basic parameter validation.\\n     */\\n    function _lzReceive(\\n        Origin calldata _origin,\\n        bytes32 _guid,\\n        bytes calldata _message,\\n        address _executor,\\n        bytes calldata _extraData\\n    ) internal virtual;\\n}\\n\",\"keccak256\":\"0x0174e9f1ec4cefe4b5adc26c392269c699b9ff75965364e5b7264426a462c70b\",\"license\":\"MIT\"},\"@layerzerolabs/oapp-evm/contracts/oapp/interfaces/IOAppCore.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.20;\\n\\nimport { ILayerZeroEndpointV2 } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\\\";\\n\\n/**\\n * @title IOAppCore\\n */\\ninterface IOAppCore {\\n    // Custom error messages\\n    error OnlyPeer(uint32 eid, bytes32 sender);\\n    error NoPeer(uint32 eid);\\n    error InvalidEndpointCall();\\n    error InvalidDelegate();\\n\\n    // Event emitted when a peer (OApp) is set for a corresponding endpoint\\n    event PeerSet(uint32 eid, bytes32 peer);\\n\\n    /**\\n     * @notice Retrieves the OApp version information.\\n     * @return senderVersion The version of the OAppSender.sol contract.\\n     * @return receiverVersion The version of the OAppReceiver.sol contract.\\n     */\\n    function oAppVersion() external view returns (uint64 senderVersion, uint64 receiverVersion);\\n\\n    /**\\n     * @notice Retrieves the LayerZero endpoint associated with the OApp.\\n     * @return iEndpoint The LayerZero endpoint as an interface.\\n     */\\n    function endpoint() external view returns (ILayerZeroEndpointV2 iEndpoint);\\n\\n    /**\\n     * @notice Retrieves the peer (OApp) associated with a corresponding endpoint.\\n     * @param _eid The endpoint ID.\\n     * @return peer The peer address (OApp instance) associated with the corresponding endpoint.\\n     */\\n    function peers(uint32 _eid) external view returns (bytes32 peer);\\n\\n    /**\\n     * @notice Sets the peer address (OApp instance) for a corresponding endpoint.\\n     * @param _eid The endpoint ID.\\n     * @param _peer The address of the peer to be associated with the corresponding endpoint.\\n     */\\n    function setPeer(uint32 _eid, bytes32 _peer) external;\\n\\n    /**\\n     * @notice Sets the delegate address for the OApp Core.\\n     * @param _delegate The address of the delegate to be set.\\n     */\\n    function setDelegate(address _delegate) external;\\n}\\n\",\"keccak256\":\"0x40e49f2de74506e1da5dcaed53a39853f691647f4ceb0fccc8f49a68d3f47c58\",\"license\":\"MIT\"},\"@layerzerolabs/oapp-evm/contracts/oapp/interfaces/IOAppReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\nimport { ILayerZeroReceiver, Origin } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroReceiver.sol\\\";\\n\\ninterface IOAppReceiver is ILayerZeroReceiver {\\n    /**\\n     * @notice Indicates whether an address is an approved composeMsg sender to the Endpoint.\\n     * @param _origin The origin information containing the source endpoint and sender address.\\n     *  - srcEid: The source chain endpoint ID.\\n     *  - sender: The sender address on the src chain.\\n     *  - nonce: The nonce of the message.\\n     * @param _message The lzReceive payload.\\n     * @param _sender The sender address.\\n     * @return isSender Is a valid sender.\\n     *\\n     * @dev Applications can optionally choose to implement a separate composeMsg sender that is NOT the bridging layer.\\n     * @dev The default sender IS the OAppReceiver implementer.\\n     */\\n    function isComposeMsgSender(\\n        Origin calldata _origin,\\n        bytes calldata _message,\\n        address _sender\\n    ) external view returns (bool isSender);\\n}\\n\",\"keccak256\":\"0xd26135185e19b3732746d4a9e2923e896f28dec8664bab161faea2ee26fcdc3d\",\"license\":\"MIT\"},\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/StateRootStorage.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\nimport {Ownable} from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport {StateRootProof} from \\\"./lib/ValidorStructs.sol\\\";\\nimport {OAppCore} from \\\"@layerzerolabs/oapp-evm/contracts/oapp/OAppCore.sol\\\";\\nimport {OAppReceiver} from \\\"@layerzerolabs/oapp-evm/contracts/oapp/OAppReceiver.sol\\\";\\nimport {Origin} from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\\\";\\n\\ncontract StateRootStorage is OAppReceiver {\\n    StateRootProof public stateRootProof;\\n\\n    constructor(address _owner, address _endpoint) OAppCore(_endpoint, _owner) Ownable(_owner) {\\n    }\\n\\n    function stateRoot() public view returns (bytes32) {\\n        return stateRootProof.stateRoot;\\n    }\\n\\n    function blockNumber() public view returns (uint256) {\\n        return stateRootProof.blockNumber;\\n    }\\n\\n    /**\\n * @dev Internal function override to handle incoming messages from another chain.\\n     * @dev _origin A struct containing information about the message sender.\\n     * @dev _guid A unique global packet identifier for the message.\\n     * @param _payload The encoded message payload being received.\\n     *\\n     * @dev The following params are unused in the current implementation of the OApp.\\n     * @dev _executor The address of the Executor responsible for processing the message.\\n     * @dev _extraData Arbitrary data appended by the Executor to the message.\\n     *\\n     * Decodes the received payload and processes it as per the business logic defined in the function.\\n     */\\n    function _lzReceive(\\n        Origin calldata /*_origin*/,\\n        bytes32 /*_guid*/,\\n        bytes calldata _payload,\\n        address /*_executor*/,\\n        bytes calldata /*_extraData*/\\n    ) internal override {\\n        (bytes32 stateRoot, uint256 blockNumber,bytes32 blockHash) = abi.decode(_payload, (bytes32, uint256, bytes32));\\n        stateRootProof = StateRootProof(stateRoot, blockNumber, blockHash);\\n    }\\n}\\n\",\"keccak256\":\"0x59165ce16c28f2d51d594ddd9f71bd51cfad4d0788f63c9b363ede5be5109761\",\"license\":\"MIT\"},\"contracts/lib/ValidorStructs.sol\":{\"content\":\"// SPDX-License-Identifier: LGPL-3.0-only\\npragma solidity ^0.8.0;\\n\\n/**\\n * @notice Represents the stateRoot of a given block\\n * @dev The payload is sent to every supported child chain through layerZero\\n*/\\nstruct StateRootProof {\\n    bytes32 stateRoot; // The state root hash of the block.\\n    uint256 blockNumber; // The block number at which the proof is generated.\\n    bytes32 blockHash; // The block hash of the block.\\n}\\n\",\"keccak256\":\"0xc5f59d0283e7623a42f1aa6f353d7acfdbd2221dd3c89d55bb34e9bd10871bc3\",\"license\":\"LGPL-3.0-only\"}},\"version\":1}",
+  "bytecode": "0x60a06040523480156200001157600080fd5b506040516200138f3803806200138f833981810160405281019062000037919062000305565b808283600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1603620000af5760006040517f1e4fbdf7000000000000000000000000000000000000000000000000000000008152600401620000a691906200035d565b60405180910390fd5b620000c081620001d760201b60201c565b508173ffffffffffffffffffffffffffffffffffffffff1660808173ffffffffffffffffffffffffffffffffffffffff1681525050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16036200015c576040517fb586360400000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60805173ffffffffffffffffffffffffffffffffffffffff1663ca5eb5e1826040518263ffffffff1660e01b81526004016200019991906200035d565b600060405180830381600087803b158015620001b457600080fd5b505af1158015620001c9573d6000803e3d6000fd5b50505050505050506200037a565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a35050565b600080fd5b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000620002cd82620002a0565b9050919050565b620002df81620002c0565b8114620002eb57600080fd5b50565b600081519050620002ff81620002d4565b92915050565b600080604083850312156200031f576200031e6200029b565b5b60006200032f85828601620002ee565b92505060206200034285828601620002ee565b9150509250929050565b6200035781620002c0565b82525050565b60006020820190506200037460008301846200034c565b92915050565b608051610feb620003a4600039600081816103ad0152818161050201526105d30152610feb6000f3fe6080604052600436106100e85760003560e01c80637d25a05e1161008a578063bb0b6a5311610059578063bb0b6a53146102c8578063ca5eb5e114610305578063f2fde38b1461032e578063ff7bd03d14610357576100e8565b80637d25a05e146101f857806382413eac146102355780638da5cb5b146102725780639588eca21461029d576100e8565b80634f215fc1116100c65780634f215fc11461015e57806357e871e71461018b5780635e280f11146101b6578063715018a6146101e1576100e8565b806313137d65146100ed57806317442b70146101095780633400288b14610135575b600080fd5b61010760048036038101906101029190610ada565b610394565b005b34801561011557600080fd5b5061011e6104b6565b60405161012c929190610bb9565b60405180910390f35b34801561014157600080fd5b5061015c60048036038101906101579190610c1e565b6104c5565b005b34801561016a57600080fd5b506101736104db565b60405161018293929190610c86565b60405180910390f35b34801561019757600080fd5b506101a06104f3565b6040516101ad9190610cbd565b60405180910390f35b3480156101c257600080fd5b506101cb610500565b6040516101d89190610d37565b60405180910390f35b3480156101ed57600080fd5b506101f6610524565b005b34801561020457600080fd5b5061021f600480360381019061021a9190610c1e565b610538565b60405161022c9190610d52565b60405180910390f35b34801561024157600080fd5b5061025c60048036038101906102579190610d6d565b610540565b6040516102699190610dfc565b60405180910390f35b34801561027e57600080fd5b5061028761057b565b6040516102949190610e26565b60405180910390f35b3480156102a957600080fd5b506102b26105a4565b6040516102bf9190610e41565b60405180910390f35b3480156102d457600080fd5b506102ef60048036038101906102ea9190610e5c565b6105b1565b6040516102fc9190610e41565b60405180910390f35b34801561031157600080fd5b5061032c60048036038101906103279190610e89565b6105c9565b005b34801561033a57600080fd5b5061035560048036038101906103509190610e89565b61065f565b005b34801561036357600080fd5b5061037e60048036038101906103799190610eb6565b6106e5565b60405161038b9190610dfc565b60405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff167f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff161461042457336040517f91ac5e4f00000000000000000000000000000000000000000000000000000000815260040161041b9190610e26565b60405180910390fd5b866020013561044488600001602081019061043f9190610e5c565b610726565b1461049e5786600001602081019061045c9190610e5c565b87602001356040517fc26bebcc000000000000000000000000000000000000000000000000000000008152600401610495929190610ef2565b60405180910390fd5b6104ad8787878787878761079b565b50505050505050565b60008060006002915091509091565b6104cd6107ff565b6104d78282610886565b5050565b60028060000154908060010154908060020154905083565b6000600260010154905090565b7f000000000000000000000000000000000000000000000000000000000000000081565b61052c6107ff565b61053660006108e7565b565b600092915050565b60003073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff16149050949350505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000600260000154905090565b60016020528060005260406000206000915090505481565b6105d16107ff565b7f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff1663ca5eb5e1826040518263ffffffff1660e01b815260040161062a9190610e26565b600060405180830381600087803b15801561064457600080fd5b505af1158015610658573d6000803e3d6000fd5b5050505050565b6106676107ff565b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16036106d95760006040517f1e4fbdf70000000000000000000000000000000000000000000000000000000081526004016106d09190610e26565b60405180910390fd5b6106e2816108e7565b50565b60008160200135600160008460000160208101906107039190610e5c565b63ffffffff1663ffffffff16815260200190815260200160002054149050919050565b600080600160008463ffffffff1663ffffffff1681526020019081526020016000205490506000801b810361079257826040517ff6ff4fb70000000000000000000000000000000000000000000000000000000081526004016107899190610f1b565b60405180910390fd5b80915050919050565b600080600087878101906107af9190610f62565b925092509250604051806060016040528084815260200183815260200182815250600260008201518160000155602082015181600101556040820151816002015590505050505050505050505050565b6108076109ab565b73ffffffffffffffffffffffffffffffffffffffff1661082561057b565b73ffffffffffffffffffffffffffffffffffffffff1614610884576108486109ab565b6040517f118cdaa700000000000000000000000000000000000000000000000000000000815260040161087b9190610e26565b60405180910390fd5b565b80600160008463ffffffff1663ffffffff168152602001908152602001600020819055507f238399d427b947898edb290f5ff0f9109849b1c3ba196a42e35f00c50a54b98b82826040516108db929190610ef2565b60405180910390a15050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a35050565b600033905090565b600080fd5b600080fd5b600080fd5b6000606082840312156109d8576109d76109bd565b5b81905092915050565b6000819050919050565b6109f4816109e1565b81146109ff57600080fd5b50565b600081359050610a11816109eb565b92915050565b600080fd5b600080fd5b600080fd5b60008083601f840112610a3c57610a3b610a17565b5b8235905067ffffffffffffffff811115610a5957610a58610a1c565b5b602083019150836001820283011115610a7557610a74610a21565b5b9250929050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000610aa782610a7c565b9050919050565b610ab781610a9c565b8114610ac257600080fd5b50565b600081359050610ad481610aae565b92915050565b600080600080600080600060e0888a031215610af957610af86109b3565b5b6000610b078a828b016109c2565b9750506060610b188a828b01610a02565b965050608088013567ffffffffffffffff811115610b3957610b386109b8565b5b610b458a828b01610a26565b955095505060a0610b588a828b01610ac5565b93505060c088013567ffffffffffffffff811115610b7957610b786109b8565b5b610b858a828b01610a26565b925092505092959891949750929550565b600067ffffffffffffffff82169050919050565b610bb381610b96565b82525050565b6000604082019050610bce6000830185610baa565b610bdb6020830184610baa565b9392505050565b600063ffffffff82169050919050565b610bfb81610be2565b8114610c0657600080fd5b50565b600081359050610c1881610bf2565b92915050565b60008060408385031215610c3557610c346109b3565b5b6000610c4385828601610c09565b9250506020610c5485828601610a02565b9150509250929050565b610c67816109e1565b82525050565b6000819050919050565b610c8081610c6d565b82525050565b6000606082019050610c9b6000830186610c5e565b610ca86020830185610c77565b610cb56040830184610c5e565b949350505050565b6000602082019050610cd26000830184610c77565b92915050565b6000819050919050565b6000610cfd610cf8610cf384610a7c565b610cd8565b610a7c565b9050919050565b6000610d0f82610ce2565b9050919050565b6000610d2182610d04565b9050919050565b610d3181610d16565b82525050565b6000602082019050610d4c6000830184610d28565b92915050565b6000602082019050610d676000830184610baa565b92915050565b60008060008060a08587031215610d8757610d866109b3565b5b6000610d95878288016109c2565b945050606085013567ffffffffffffffff811115610db657610db56109b8565b5b610dc287828801610a26565b93509350506080610dd587828801610ac5565b91505092959194509250565b60008115159050919050565b610df681610de1565b82525050565b6000602082019050610e116000830184610ded565b92915050565b610e2081610a9c565b82525050565b6000602082019050610e3b6000830184610e17565b92915050565b6000602082019050610e566000830184610c5e565b92915050565b600060208284031215610e7257610e716109b3565b5b6000610e8084828501610c09565b91505092915050565b600060208284031215610e9f57610e9e6109b3565b5b6000610ead84828501610ac5565b91505092915050565b600060608284031215610ecc57610ecb6109b3565b5b6000610eda848285016109c2565b91505092915050565b610eec81610be2565b82525050565b6000604082019050610f076000830185610ee3565b610f146020830184610c5e565b9392505050565b6000602082019050610f306000830184610ee3565b92915050565b610f3f81610c6d565b8114610f4a57600080fd5b50565b600081359050610f5c81610f36565b92915050565b600080600060608486031215610f7b57610f7a6109b3565b5b6000610f8986828701610a02565b9350506020610f9a86828701610f4d565b9250506040610fab86828701610a02565b915050925092509256fea264697066735822122079388c1cb729316c49a70288f448f772fef6a7bec52b9c5805de6b76b255d42e64736f6c63430008140033",
+  "deployedBytecode": "0x6080604052600436106100e85760003560e01c80637d25a05e1161008a578063bb0b6a5311610059578063bb0b6a53146102c8578063ca5eb5e114610305578063f2fde38b1461032e578063ff7bd03d14610357576100e8565b80637d25a05e146101f857806382413eac146102355780638da5cb5b146102725780639588eca21461029d576100e8565b80634f215fc1116100c65780634f215fc11461015e57806357e871e71461018b5780635e280f11146101b6578063715018a6146101e1576100e8565b806313137d65146100ed57806317442b70146101095780633400288b14610135575b600080fd5b61010760048036038101906101029190610ada565b610394565b005b34801561011557600080fd5b5061011e6104b6565b60405161012c929190610bb9565b60405180910390f35b34801561014157600080fd5b5061015c60048036038101906101579190610c1e565b6104c5565b005b34801561016a57600080fd5b506101736104db565b60405161018293929190610c86565b60405180910390f35b34801561019757600080fd5b506101a06104f3565b6040516101ad9190610cbd565b60405180910390f35b3480156101c257600080fd5b506101cb610500565b6040516101d89190610d37565b60405180910390f35b3480156101ed57600080fd5b506101f6610524565b005b34801561020457600080fd5b5061021f600480360381019061021a9190610c1e565b610538565b60405161022c9190610d52565b60405180910390f35b34801561024157600080fd5b5061025c60048036038101906102579190610d6d565b610540565b6040516102699190610dfc565b60405180910390f35b34801561027e57600080fd5b5061028761057b565b6040516102949190610e26565b60405180910390f35b3480156102a957600080fd5b506102b26105a4565b6040516102bf9190610e41565b60405180910390f35b3480156102d457600080fd5b506102ef60048036038101906102ea9190610e5c565b6105b1565b6040516102fc9190610e41565b60405180910390f35b34801561031157600080fd5b5061032c60048036038101906103279190610e89565b6105c9565b005b34801561033a57600080fd5b5061035560048036038101906103509190610e89565b61065f565b005b34801561036357600080fd5b5061037e60048036038101906103799190610eb6565b6106e5565b60405161038b9190610dfc565b60405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff167f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff161461042457336040517f91ac5e4f00000000000000000000000000000000000000000000000000000000815260040161041b9190610e26565b60405180910390fd5b866020013561044488600001602081019061043f9190610e5c565b610726565b1461049e5786600001602081019061045c9190610e5c565b87602001356040517fc26bebcc000000000000000000000000000000000000000000000000000000008152600401610495929190610ef2565b60405180910390fd5b6104ad8787878787878761079b565b50505050505050565b60008060006002915091509091565b6104cd6107ff565b6104d78282610886565b5050565b60028060000154908060010154908060020154905083565b6000600260010154905090565b7f000000000000000000000000000000000000000000000000000000000000000081565b61052c6107ff565b61053660006108e7565b565b600092915050565b60003073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff16149050949350505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000600260000154905090565b60016020528060005260406000206000915090505481565b6105d16107ff565b7f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff1663ca5eb5e1826040518263ffffffff1660e01b815260040161062a9190610e26565b600060405180830381600087803b15801561064457600080fd5b505af1158015610658573d6000803e3d6000fd5b5050505050565b6106676107ff565b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16036106d95760006040517f1e4fbdf70000000000000000000000000000000000000000000000000000000081526004016106d09190610e26565b60405180910390fd5b6106e2816108e7565b50565b60008160200135600160008460000160208101906107039190610e5c565b63ffffffff1663ffffffff16815260200190815260200160002054149050919050565b600080600160008463ffffffff1663ffffffff1681526020019081526020016000205490506000801b810361079257826040517ff6ff4fb70000000000000000000000000000000000000000000000000000000081526004016107899190610f1b565b60405180910390fd5b80915050919050565b600080600087878101906107af9190610f62565b925092509250604051806060016040528084815260200183815260200182815250600260008201518160000155602082015181600101556040820151816002015590505050505050505050505050565b6108076109ab565b73ffffffffffffffffffffffffffffffffffffffff1661082561057b565b73ffffffffffffffffffffffffffffffffffffffff1614610884576108486109ab565b6040517f118cdaa700000000000000000000000000000000000000000000000000000000815260040161087b9190610e26565b60405180910390fd5b565b80600160008463ffffffff1663ffffffff168152602001908152602001600020819055507f238399d427b947898edb290f5ff0f9109849b1c3ba196a42e35f00c50a54b98b82826040516108db929190610ef2565b60405180910390a15050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a35050565b600033905090565b600080fd5b600080fd5b600080fd5b6000606082840312156109d8576109d76109bd565b5b81905092915050565b6000819050919050565b6109f4816109e1565b81146109ff57600080fd5b50565b600081359050610a11816109eb565b92915050565b600080fd5b600080fd5b600080fd5b60008083601f840112610a3c57610a3b610a17565b5b8235905067ffffffffffffffff811115610a5957610a58610a1c565b5b602083019150836001820283011115610a7557610a74610a21565b5b9250929050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000610aa782610a7c565b9050919050565b610ab781610a9c565b8114610ac257600080fd5b50565b600081359050610ad481610aae565b92915050565b600080600080600080600060e0888a031215610af957610af86109b3565b5b6000610b078a828b016109c2565b9750506060610b188a828b01610a02565b965050608088013567ffffffffffffffff811115610b3957610b386109b8565b5b610b458a828b01610a26565b955095505060a0610b588a828b01610ac5565b93505060c088013567ffffffffffffffff811115610b7957610b786109b8565b5b610b858a828b01610a26565b925092505092959891949750929550565b600067ffffffffffffffff82169050919050565b610bb381610b96565b82525050565b6000604082019050610bce6000830185610baa565b610bdb6020830184610baa565b9392505050565b600063ffffffff82169050919050565b610bfb81610be2565b8114610c0657600080fd5b50565b600081359050610c1881610bf2565b92915050565b60008060408385031215610c3557610c346109b3565b5b6000610c4385828601610c09565b9250506020610c5485828601610a02565b9150509250929050565b610c67816109e1565b82525050565b6000819050919050565b610c8081610c6d565b82525050565b6000606082019050610c9b6000830186610c5e565b610ca86020830185610c77565b610cb56040830184610c5e565b949350505050565b6000602082019050610cd26000830184610c77565b92915050565b6000819050919050565b6000610cfd610cf8610cf384610a7c565b610cd8565b610a7c565b9050919050565b6000610d0f82610ce2565b9050919050565b6000610d2182610d04565b9050919050565b610d3181610d16565b82525050565b6000602082019050610d4c6000830184610d28565b92915050565b6000602082019050610d676000830184610baa565b92915050565b60008060008060a08587031215610d8757610d866109b3565b5b6000610d95878288016109c2565b945050606085013567ffffffffffffffff811115610db657610db56109b8565b5b610dc287828801610a26565b93509350506080610dd587828801610ac5565b91505092959194509250565b60008115159050919050565b610df681610de1565b82525050565b6000602082019050610e116000830184610ded565b92915050565b610e2081610a9c565b82525050565b6000602082019050610e3b6000830184610e17565b92915050565b6000602082019050610e566000830184610c5e565b92915050565b600060208284031215610e7257610e716109b3565b5b6000610e8084828501610c09565b91505092915050565b600060208284031215610e9f57610e9e6109b3565b5b6000610ead84828501610ac5565b91505092915050565b600060608284031215610ecc57610ecb6109b3565b5b6000610eda848285016109c2565b91505092915050565b610eec81610be2565b82525050565b6000604082019050610f076000830185610ee3565b610f146020830184610c5e565b9392505050565b6000602082019050610f306000830184610ee3565b92915050565b610f3f81610c6d565b8114610f4a57600080fd5b50565b600081359050610f5c81610f36565b92915050565b600080600060608486031215610f7b57610f7a6109b3565b5b6000610f8986828701610a02565b9350506020610f9a86828701610f4d565b9250506040610fab86828701610a02565b915050925092509256fea264697066735822122079388c1cb729316c49a70288f448f772fef6a7bec52b9c5805de6b76b255d42e64736f6c63430008140033",
+  "devdoc": {
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "allowInitializePath((uint32,bytes32,uint64))": {
+        "details": "This indicates to the endpoint that the OApp has enabled msgs for this particular path to be received.This defaults to assuming if a peer has been set, its initialized. Can be overridden by the OApp if there is other logic to determine this.",
+        "params": {
+          "origin": "The origin information containing the source endpoint and sender address."
+        },
+        "returns": {
+          "_0": "Whether the path has been initialized."
+        }
+      },
+      "isComposeMsgSender((uint32,bytes32,uint64),bytes,address)": {
+        "details": "_origin The origin information containing the source endpoint and sender address.  - srcEid: The source chain endpoint ID.  - sender: The sender address on the src chain.  - nonce: The nonce of the message._message The lzReceive payload.Applications can optionally choose to implement separate composeMsg senders that are NOT the bridging layer.The default sender IS the OAppReceiver implementer.",
+        "params": {
+          "_sender": "The sender address."
+        },
+        "returns": {
+          "_0": "isSender Is a valid sender."
+        }
+      },
+      "lzReceive((uint32,bytes32,uint64),bytes32,bytes,address,bytes)": {
+        "details": "Entry point for receiving messages or packets from the endpoint.Entry point for receiving msg/packet from the LayerZero endpoint.",
+        "params": {
+          "_executor": "The address of the executor for the received message.",
+          "_extraData": "Additional arbitrary data provided by the corresponding executor.",
+          "_guid": "The unique identifier for the received LayerZero message.",
+          "_message": "The payload of the received message.",
+          "_origin": "The origin information containing the source endpoint and sender address.  - srcEid: The source chain endpoint ID.  - sender: The sender address on the src chain.  - nonce: The nonce of the message."
+        }
+      },
+      "nextNonce(uint32,bytes32)": {
+        "details": "_srcEid The source endpoint ID._sender The sender address.The path nonce starts from 1. If 0 is returned it means that there is NO nonce ordered enforcement.Is required by the off-chain executor to determine the OApp expects msg execution is ordered.This is also enforced by the OApp.By default this is NOT enabled. ie. nextNonce is hardcoded to return 0.",
+        "returns": {
+          "nonce": "The next nonce."
+        }
+      },
+      "oAppVersion()": {
+        "details": "Providing 0 as the default for OAppSender version. Indicates that the OAppSender is not implemented. ie. this is a RECEIVE only OApp.If the OApp uses both OAppSender and OAppReceiver, then this needs to be override returning the correct versions.",
+        "returns": {
+          "receiverVersion": "The version of the OAppReceiver.sol contract.",
+          "senderVersion": "The version of the OAppSender.sol contract."
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "setDelegate(address)": {
+        "details": "Only the owner/admin of the OApp can call this function.Provides the ability for a delegate to set configs, on behalf of the OApp, directly on the Endpoint contract.",
+        "params": {
+          "_delegate": "The address of the delegate to be set."
+        }
+      },
+      "setPeer(uint32,bytes32)": {
+        "details": "Only the owner/admin of the OApp can call this function.Indicates that the peer is trusted to send LayerZero messages to this OApp.Set this to bytes32(0) to remove the peer address.Peer is a bytes32 to accommodate non-evm chains.",
+        "params": {
+          "_eid": "The endpoint ID.",
+          "_peer": "The address of the peer to be associated with the corresponding endpoint."
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "allowInitializePath((uint32,bytes32,uint64))": {
+        "notice": "Checks if the path initialization is allowed based on the provided origin."
+      },
+      "endpoint()": {
+        "notice": "Retrieves the LayerZero endpoint associated with the OApp."
+      },
+      "isComposeMsgSender((uint32,bytes32,uint64),bytes,address)": {
+        "notice": "Indicates whether an address is an approved composeMsg sender to the Endpoint."
+      },
+      "nextNonce(uint32,bytes32)": {
+        "notice": "Retrieves the next nonce for a given source endpoint and sender address."
+      },
+      "oAppVersion()": {
+        "notice": "Retrieves the OApp version information."
+      },
+      "peers(uint32)": {
+        "notice": "Retrieves the peer (OApp) associated with a corresponding endpoint."
+      },
+      "setDelegate(address)": {
+        "notice": "Sets the delegate address for the OApp."
+      },
+      "setPeer(uint32,bytes32)": {
+        "notice": "Sets the peer address (OApp instance) for a corresponding endpoint."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5589,
+        "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 4639,
+        "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+        "label": "peers",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_uint32,t_bytes32)"
+      },
+      {
+        "astId": 8358,
+        "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+        "label": "stateRootProof",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_struct(StateRootProof)8594_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_uint32,t_bytes32)": {
+        "encoding": "mapping",
+        "key": "t_uint32",
+        "label": "mapping(uint32 => bytes32)",
+        "numberOfBytes": "32",
+        "value": "t_bytes32"
+      },
+      "t_struct(StateRootProof)8594_storage": {
+        "encoding": "inplace",
+        "label": "struct StateRootProof",
+        "members": [
+          {
+            "astId": 8589,
+            "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+            "label": "stateRoot",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bytes32"
+          },
+          {
+            "astId": 8591,
+            "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+            "label": "blockNumber",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8593,
+            "contract": "contracts/StateRootStorage.sol:StateRootStorage",
+            "label": "blockHash",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_bytes32"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint32": {
+        "encoding": "inplace",
+        "label": "uint32",
+        "numberOfBytes": "4"
+      }
+    }
+  }
+}
