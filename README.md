@@ -1,21 +1,18 @@
-# State root bridger flow
+# Crosschain Lite keystore
 
-This repository implements a **cross-chain pull mechanism** for **Gnosis Safe** using **Merkle Patricia Trie (MPT) proofs** for ownership verification. The flow allows an owner recorded on a Keystore contract on a parent chain (e.g., Ethereum) to control a Safe on a child chain (e.g., Arbitrum or Base) without requiring the owner to manage the child Safe state directly.
+This repository implements a **Lite Keystore and cross-chain pull mechanism** for **Smart accounts** using **Merkle Patricia Trie (MPT) proofs** for ownership verification. The flow allows an owner recorded on a Keystore contract on a parent chain (e.g., Ethereum) to control an account on a child chain (e.g., Arbitrum or Base) without requiring the owner to manage the child account state directly.
 
 ## 📖 General Overview
 
 <img src="storage-root-bridger/readme/infra.png" width="900">
 
-This flow enables the owner(EOA) of a given **Safe** (parent) on one blockchain to execute transactions on another blockchain through another child Safe using a **pull mechanism**. It leverages **Ethereum's storage proof system** to validate state across chains, ensuring ownership validity.
-
 Key components:
 
 **Storage-root-bridger:**
 
-- **Safe Hierarchy**: a Safe on chain A is defined as parent for a Safe on chain B
-- **ETH Storage Proofs**: used to validate Safe ownership across chains
-- **Storage Slot Calculation**: Determines where Safe ownership data is stored.
-- **Merkle Patricia Trie (MPT) Proofs**: Used to validate Safe ownership and state consistency.
+- **ETH Storage Proofs**: used to validate ownership across chains
+- **Storage Slot Calculation**: Determines where Account ownership data is stored on the Keystore.
+- **Merkle Patricia Trie (MPT) Proofs**: Used to validate Account ownership and state consistency.
 - **StateRoot Storage**: On-chain contract that store the latest block stateRoot.
 - **StateRoot Validator**: On-chain contract that validate a block header and broadcast it to Storage contracts.
 
@@ -29,9 +26,6 @@ Key components:
 
 ## 🛠 How the flow works
 
-Simplified flow of the cross-chain pull mechanism:
-<img src="storage-root-bridger/readme/crosschain-pull.png">
-
 #### **Key points**
 
 1. **Deploy `LiteKeyStore`** on the main chains.
@@ -41,8 +35,9 @@ Simplified flow of the cross-chain pull mechanism:
 1. **Deploy `StorageVerifier`** on the child chains.
 1. **Deploy `CrosschainValidator`** on the child chains.
 
+1. A child account will add a master address as owner on the LiteKeystore
 1. Add the latest block header (**Ethereum state root**) in `StateRoot Validator`.
-1. Generate a **proof** using `eth_getProof` for the Safe contract’s storage.
+1. Generate a **proof** using `eth_getProof` for the LiteKeystore contract’s storage.
 1. Verify the proof **on-chain** using the `MTP` library.
 
 ## 🛠 State-root-bridger flow

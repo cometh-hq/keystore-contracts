@@ -1,6 +1,6 @@
 ## 📜 Setup the Infrastructure
 
-The implementation in this repository only covers the infrastructure which validate and broadcast the stateRoot used to validate the ownership of the Safe.
+The implementation in this repository only covers the infrastructure which validate and broadcast the stateRoot used to validate the ownership of the Account.
 
 1. Configure supported networks
 2. Deploy the **StateRootValidator**
@@ -67,15 +67,14 @@ npx hardhat run scripts/storageCheck.ts --network child
 
 #### **7️⃣ CrossChain call**
 
-- The stateRoot is now available on any required chain, allowing you to use it to validate the ownership of the Safe using MTP validation.
+- The stateRoot is now available on any required chain, allowing you to use it to validate the ownership of the Account using MTP validation.
 - You are now on track to execute cross-chain transactions with your own cross-chain module.
-- example: [StorageVerifier](https://github.com/cometh-hq/crosschain-contracts-pull/blob/main/contracts/StorageVerifier.sol) & [Cross-chain Safe module](https://github.com/cometh-hq/crosschain-contracts-pull/blob/main/contracts/CrossChainModule.sol)
 
 #### 🧮 Storage Slot Calculation
 
 One key point of the storage proof validation is to understand how owners are stored and how to calculate the storage slot.
 
-<img src="storage-root-bridger/readme/safe-slot.png">
+<img src="/readme/safe-slot.png">
 
 The owners slot is a chained list of address at the position 0 of the Lite Keystore contract storage.
 The last address of the chained list will always be `0x1`.
@@ -95,12 +94,12 @@ In order to verify that a proof is valid, we need to:
 - verify the storage proof against the account.storageHash to make sure the storage is part of its account
 - verify the account proof against the block.stateRoot to make sure the account is part of the block
 
-<img src="storage-root-bridger/readme/eth-root.png">
+<img src="/readme/eth-root.png">
 
 ##### **Steps to Verify a Proof**
 
 1. Fetch `eth_getBlockByNumber` and get the blockNumber and stateRoot
-2. Fetch `eth_getProof` data for the **Safe contract’s owners mapping**.
+2. Fetch `eth_getProof` data for the **Account contract’s owners mapping**.
 3. Extract the Merkle proof:
 
 - proof.accountProof
