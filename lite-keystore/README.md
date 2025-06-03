@@ -1,9 +1,3 @@
-#### Keys Components
-
-- **LiteKeystore**: Keystore contract containing an ownership mapping
-- **Storage Verifier**: On-chain contract that verifies account & storage proofs against the stored stateRoot.
-- **Cross-Chain Validator**: ERC7579 validator that uses storage proof and the storage verifier to validate a userop.
-
 #### Prerequisite
 
 - You need to have deployed the BLOCK_STORAGE contract on the chain where the validator will be deployed.
