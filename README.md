@@ -1,4 +1,4 @@
-# Crosschain Slim keystore
+# Cometh Slim keystore
 
 This repository implements a **Slim Keystore and cross-chain pull mechanism** for **Smart accounts** using **Merkle Patricia Trie (MPT) proofs** for ownership verification. The flow allows an owner recorded on a Keystore contract on a parent chain (e.g., Ethereum) to control an account on a child chain (e.g., Arbitrum or Base) without requiring the owner to manage the child account state directly.
 
