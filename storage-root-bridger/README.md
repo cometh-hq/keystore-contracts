@@ -70,21 +70,6 @@ npx hardhat run scripts/storageCheck.ts --network child
 - The stateRoot is now available on any required chain, allowing you to use it to validate the ownership of the Account using MTP validation.
 - You are now on track to execute cross-chain transactions with your own cross-chain module.
 
-#### 🧮 Storage Slot Calculation
-
-One key point of the storage proof validation is to understand how owners are stored and how to calculate the storage slot.
-
-<img src="../public/safe-slot.png">
-
-The owners slot is a chained list of address at the position 0 of the Lite Keystore contract storage.
-The last address of the chained list will always be `0x1`.
-
-In order to validate the storage proof, we need to know the key, the address of the owner we want to validate, and the value which is the next owner. Fortunately the call to `eth_getProof` will contain the value.
-
-```solidity
-keccak256(abi.encode(key, index))
-```
-
 #### 🔍 MPT Proof Verification
 
 Ethereum uses **Merkle Patricia Trie (MPT) proofs** to manage its storage and account proof.
@@ -94,7 +79,7 @@ In order to verify that a proof is valid, we need to:
 - verify the storage proof against the account.storageHash to make sure the storage is part of its account
 - verify the account proof against the block.stateRoot to make sure the account is part of the block
 
-<img src="../public/eth-root.png">
+<img src="../public//eth-root.png">
 
 ##### **Steps to Verify a Proof**
 
