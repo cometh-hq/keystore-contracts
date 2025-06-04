@@ -4,7 +4,7 @@ This repository implements a **Lite Keystore and cross-chain pull mechanism** fo
 
 ## 📖 General Overview
 
-<img src="/readme/overall_flow.png" width="900">
+<img src="/public/overall_flow.png" width="900">
 
 Key components:
 
@@ -50,7 +50,7 @@ It receives RLP-encoded block headers, from which it extracts the stateRoot, blo
 State Root Distributor:
 This contract encapsulates the Arbitrary Messaging Bridge (AMB) logic. Once a state root has been validated, it is sent to other chains through this contract.In the current implementation, we use LayerZero as the messaging layer. However, the design is modular, and we plan to support multiple bridges in the future to increase redundancy, decentralization, and trust minimization.
 
-<img src="/readme/state-root-bridger.png">
+<img src="/public/state-root-bridger.png">
 
 ## 🛠 Storage verifier on destination chain
 
@@ -62,13 +62,13 @@ This contract receives and stores the latest state root from the origin chain.
 Storage Proof Verifier:
 This contract acts as an on-chain proof verifier for the state of the reference chain. It leverages Merkle Patricia Trie (MPT) proofs to verify that specific storage slot values are valid for a given state root, enabling trustless validation of data originating from the reference chain.
 
-<img src="/readme/storage-verifier.png">
+<img src="/public/storage-verifier.png">
 
-## 🛠 ERC7579 compliant Validator verificaties userops on destination chain
+## 🛠 ERC7579 compliant Validator that verifies userops on destination chain
 
 This module must be enabled on the user's smart account to support cross-chain signer verification. When a UserOperation is received, the validator extracts a SignatureData structure containing:
 A standard ECDSA signature from a key registered in the keystore,
 A StorageProofData object that includes a Merkle proof showing the key is listed in the keystore at a specific storage slot.
 Using the Storage Proof Verifier, the module then checks this proof against the latest bridged state root. If the verification is successful, the signer is considered valid, and the UserOperation is executed.
 
-<img src="/readme/userop-verif.png">
+<img src="/public/userop-verif.png">
