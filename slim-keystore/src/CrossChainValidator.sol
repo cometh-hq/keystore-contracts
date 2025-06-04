@@ -39,7 +39,7 @@ contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
 
     IStorageVerifier public storageVerifier;
     address public slimKeyStore;
-    uint256 public constant LITE_KEY_STORE_OWNERS_SLOT = 0;
+    uint256 public constant SLIM_KEYSTORE_OWNERS_SLOT = 0;
 
     constructor(IStorageVerifier _storageVerifier, address _slimKeyStore) {
         storageVerifier = _storageVerifier;
@@ -47,7 +47,7 @@ contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
     }
 
     function getKeyStoreOwnersSlot(address account, address owner) public pure returns (uint256) {
-        return uint256(keccak256(abi.encode(owner, keccak256(abi.encode(account, LITE_KEY_STORE_OWNERS_SLOT)))));
+        return uint256(keccak256(abi.encode(owner, keccak256(abi.encode(account, SLIM_KEYSTORE_OWNERS_SLOT)))));
     }
 
     /**

@@ -37,7 +37,7 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
     address internal childSafe = 0xce8F48b7EEBa6150B991fcb7497835c283242Ce6;
 
     // Test Parameters
-    uint256 public constant LITE_KEY_STORE_OWNERS_SLOT = 0;
+    uint256 public constant SLIM_KEYSTORE_OWNERS_SLOT = 0;
     address internal target;
     uint256 internal value;
 
@@ -98,7 +98,7 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
             chainId: _chainId,
             owner: _owner,
             slotValue: uint256(
-                keccak256(abi.encode(address(slimKeyStore), keccak256(abi.encode(_childSafe, LITE_KEY_STORE_OWNERS_SLOT))))
+                keccak256(abi.encode(address(slimKeyStore), keccak256(abi.encode(_childSafe, SLIM_KEYSTORE_OWNERS_SLOT))))
             ),
             account: MPT.Account({
                 accountAddress: _owner,

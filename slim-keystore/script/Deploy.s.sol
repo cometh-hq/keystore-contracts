@@ -17,9 +17,9 @@ contract Deploy is Script, RegistryDeployer {
     // Load plugins contract, if not in env, deploy new contract
     address public crossChainValidator = vm.envOr("CROSSCHAIN_VALIDATOR", address(0));
     address public blockStorage = vm.envOr("BLOCK_STORAGE", address(0));
-    address public slimKeyStore = vm.envOr("SLIM_KEY_STORE", address(0));
+    address public slimKeyStore = vm.envOr("SLIM_KEYSTORE", address(0));
 
-    bytes32 public implSalt = vm.envOr("SALT", bytes32(0));
+    bytes32 public implSalt = "COMETH";
 
     bytes metadata = "";
     bytes resolverContext = "";
