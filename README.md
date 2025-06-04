@@ -1,6 +1,6 @@
-# Crosschain Lite keystore
+# Crosschain Slim keystore
 
-This repository implements a **Lite Keystore and cross-chain pull mechanism** for **Smart accounts** using **Merkle Patricia Trie (MPT) proofs** for ownership verification. The flow allows an owner recorded on a Keystore contract on a parent chain (e.g., Ethereum) to control an account on a child chain (e.g., Arbitrum or Base) without requiring the owner to manage the child account state directly.
+This repository implements a **Slim Keystore and cross-chain pull mechanism** for **Smart accounts** using **Merkle Patricia Trie (MPT) proofs** for ownership verification. The flow allows an owner recorded on a Keystore contract on a parent chain (e.g., Ethereum) to control an account on a child chain (e.g., Arbitrum or Base) without requiring the owner to manage the child account state directly.
 
 ## 📖 General Overview
 
@@ -8,7 +8,7 @@ This repository implements a **Lite Keystore and cross-chain pull mechanism** fo
 
 Key components:
 
-**Storage-root-bridger:**
+**State-root-bridger:**
 
 - **ETH Storage Proofs**: used to validate ownership across chains
 - **Storage Slot Calculation**: Determines where Account ownership data is stored on the Keystore.
@@ -16,9 +16,9 @@ Key components:
 - **StateRoot Storage**: On-chain contract that store the latest block stateRoot.
 - **StateRoot Validator**: On-chain contract that validate a block header and broadcast it to Storage contracts.
 
-**Lite Keystore and Storage Validator:**
+**Slim Keystore and Storage Validator:**
 
-- **Lite Keystore**: On-chain contract that will gather mappings of the owners for a given account.
+- **Slim Keystore**: On-chain contract that will gather mappings of the owners for a given account.
 - **Storage Verifier**: On-chain contract that verifies account & storage proofs against the stored stateRoot.
 - **7579 Cross-Chain Validator**: 7579 enable validator that can validate a userop according to a storage proof and an ecdsa signature
 
@@ -28,16 +28,16 @@ Key components:
 
 #### **Key points**
 
-1. **Deploy `LiteKeyStore`** on the main chains.
+1. **Deploy `SLimKeyStore`** on the main chains.
 1. **Deploy `StateRoot Validator`** on the main chain.
 1. **Deploy `StateRoot Storage`** on the child chains.
 1. **Configure `Layerzero cross-messaging`**.
 1. **Deploy `StorageVerifier`** on the child chains.
 1. **Deploy `CrosschainValidator`** on the child chains.
 
-1. A child account will add a master address as owner on the LiteKeystore
+1. A child account will add a master address as owner on the SlimKeystore
 1. Add the latest block header (**Ethereum state root**) in `StateRoot Validator`.
-1. Generate a **proof** using `eth_getProof` for the LiteKeystore contract’s storage.
+1. Generate a **proof** using `eth_getProof` for the SlimKeystore contract’s storage.
 1. Verify the proof **on-chain** using the `MTP` library.
 
 ## 🛠 State-root-bridger flow
