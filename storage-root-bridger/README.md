@@ -74,7 +74,7 @@ npx hardhat run scripts/storageCheck.ts --network child
 
 One key point of the storage proof validation is to understand how owners are stored and how to calculate the storage slot.
 
-<img src="readme/safe-slot.png">
+<img src="/readme/safe-slot.png">
 
 The owners slot is a chained list of address at the position 0 of the Lite Keystore contract storage.
 The last address of the chained list will always be `0x1`.
@@ -94,7 +94,7 @@ In order to verify that a proof is valid, we need to:
 - verify the storage proof against the account.storageHash to make sure the storage is part of its account
 - verify the account proof against the block.stateRoot to make sure the account is part of the block
 
-<img src="readme/eth-root.png">
+<img src="/readme/eth-root.png">
 
 ##### **Steps to Verify a Proof**
 

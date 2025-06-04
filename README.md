@@ -4,7 +4,7 @@ This repository implements a **Lite Keystore and cross-chain pull mechanism** fo
 
 ## 📖 General Overview
 
-<img src="storage-root-bridger/readme/infra.png" width="900">
+<img src="/readme/overall_flow.png" width="900">
 
 Key components:
 
