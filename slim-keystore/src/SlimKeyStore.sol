@@ -7,20 +7,29 @@ import { ErrorMessage } from "./lib/ErrorMessage.sol";
 contract SlimKeyStore is IKeystore, ErrorMessage {
     address internal constant SENTINEL_OWNERS = address(0x1);
 
-    mapping(address => mapping(address => address)) private owners;
-    mapping(address => uint256) private ownerCounts;
+    mapping(address => mapping(address => address)) internal owners;
+    mapping(address => uint256) internal ownerCounts;
+    mapping(address => uint256) internal thresholds;
 
     error InvalidOwner();
     error DuplicateOwner();
     error OwnerMismatch();
     error LastOwnerRemovalNotAllowed();
+    error ThresholdExceedsOwnerCount();
+    error ThresholdMustBePositive();
+
+    event ChangedThreshold(uint256 threshold);
 
     modifier onlyAccount(address account) {
         require(msg.sender == account, "Not authorized: caller is not account");
         _;
     }
 
-    function addOwner(address account, address owner) public override onlyAccount(account) {
+    function addOwnerWithThreshold(address account, address owner, uint256 _threshold)
+        public
+        override
+        onlyAccount(account)
+    {
         if (owner == address(0)) revert InvalidOwner();
         if (owner == SENTINEL_OWNERS) revert InvalidOwner();
         if (owner == address(this)) revert InvalidOwner();
@@ -37,10 +46,18 @@ contract SlimKeyStore is IKeystore, ErrorMessage {
         unchecked {
             ownerCounts[account]++;
         }
+
         emit AddedOwner(owner);
+
+        if (_threshold != thresholds[account]) changeThreshold(account, _threshold);
     }
 
-    function removeOwner(address account, address prevOwner, address owner) public override onlyAccount(account) {
+    function removeOwnerWithThreshold(address account, address prevOwner, address owner, uint256 _threshold)
+        public
+        override
+        onlyAccount(account)
+    {
+        if (ownerCounts[account] - 1 < _threshold) revert ThresholdExceedsOwnerCount();
         if (ownerCounts[account] <= 1) revert LastOwnerRemovalNotAllowed();
         if (owner == address(0) || owner == SENTINEL_OWNERS || owners[account][prevOwner] != owner) {
             revert OwnerMismatch();
@@ -52,6 +69,8 @@ contract SlimKeyStore is IKeystore, ErrorMessage {
             ownerCounts[account]--;
         }
         emit RemovedOwner(owner);
+
+        if (_threshold != thresholds[account]) changeThreshold(account, _threshold);
     }
 
     function swapOwner(address account, address prevOwner, address oldOwner, address newOwner)
@@ -92,5 +111,16 @@ contract SlimKeyStore is IKeystore, ErrorMessage {
         }
 
         return result;
+    }
+
+    function changeThreshold(address account, uint256 _threshold) public onlyAccount(account) {
+        if (_threshold == 0) revert ThresholdMustBePositive();
+        if (_threshold > ownerCounts[account]) revert ThresholdExceedsOwnerCount();
+        thresholds[account] = _threshold;
+        emit ChangedThreshold(_threshold);
+    }
+
+    function getThreshold(address account) public view returns (uint256) {
+        return thresholds[account];
     }
 }

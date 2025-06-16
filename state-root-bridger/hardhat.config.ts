@@ -1,8 +1,3 @@
-// Get the environment configuration from .env file
-//
-// To make use of automatic environment setup:
-// - Duplicate .env.example file and name it .env
-// - Fill in the environment variables
 import 'dotenv/config'
 
 import 'hardhat-deploy'
@@ -12,9 +7,6 @@ import '@layerzerolabs/toolbox-hardhat'
 import { HttpNetworkAccountsUserConfig } from 'hardhat/types'
 import { EndpointId } from "@layerzerolabs/lz-definitions";
 
-const INFURA_ID = process.env.INFURA_ID;
-
-// If you prefer to be authenticated using a private key, set a DEPLOYER_PRIVATE_KEY environment variable
 const PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY
 
 const accounts: HttpNetworkAccountsUserConfig | undefined = PRIVATE_KEY ? [PRIVATE_KEY, PRIVATE_KEY] : undefined
@@ -22,12 +14,6 @@ const accounts: HttpNetworkAccountsUserConfig | undefined = PRIVATE_KEY ? [PRIVA
 if (!accounts) {
     console.warn(
         'Could not find PRIVATE_KEY environment variables. It will not be possible to execute transactions in your example.'
-    )
-}
-
-if (!INFURA_ID) {
-    console.warn(
-        'Could not find INFURA_ID environment variable. It will not be possible to execute transactions in your example.'
     )
 }
 
@@ -42,40 +28,28 @@ const config = {
     },
     networks: {
         hardhat: {
-            // required to deploy safes
             allowUnlimitedContractSize: true
         },
         local: {
-            // This is for the persistent Hardhat node
             url: "http://127.0.0.1:8545",
-            // required to deploy safes
             allowUnlimitedContractSize: true,
         },
-        // eth: {
-        //     url: "https://mainnet.infura.io/v3/" + INFURA_ID,
-        //     accounts: accounts,
-        //     chainId: 1,
-        //     eid: EndpointId.ETHEREUM_MAINNET,
-        // },
         arbitrum_sepolia: {
-            url: "https://arb-sepolia.g.alchemy.com/v2/",
+            url: "https://arb-sepolia.g.alchemy.com/v2",
             accounts: accounts,
             chainId: 421614,
             eid: EndpointId.ARBSEP_V2_TESTNET,
         },
         base_sepolia: {
-            url: "https://base-sepolia.core.chainstack.com/",
+            url: "https://base-sepolia.infura.io/v3",
             accounts: accounts,
             chainId: 84532,
             eid: EndpointId.BASESEP_V2_TESTNET,
         },
-
-
-
     },
     namedAccounts: {
         deployer: {
-            default: 0, // wallet address of index[0], of the mnemonic in .env
+            default: 0,
         },
     },
     etherscan: {

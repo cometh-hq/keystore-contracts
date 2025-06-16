@@ -17,18 +17,26 @@ import { MPT } from "./lib/MPT.sol";
 import { IERC165 } from "@openzeppelin/contracts/interfaces/IERC165.sol";
 
 contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
-    struct StorageProofData {
-        uint256 chainId;
+    struct OwnerData {
         address owner;
-        uint256 slotValue;
-        MPT.Account account;
-        bytes[] accountProof;
-        bytes[] storageProof;
+        address prevOwner;
+        uint256 ownerSlotValue;
+        bytes[] ownerStorageProof;
+        bytes signature;
     }
 
-    struct SignatureData {
-        StorageProofData storageProofData;
-        bytes signature;
+    struct ThresholdData {
+        uint256 threshold;
+        uint256 thresholdSlotValue;
+        bytes[] thresholdStorageProof;
+    }
+
+    struct CrosschainValidationData {
+        uint256 chainId;
+        MPT.Account account;
+        bytes[] accountProof;
+        OwnerData[] ownerData;
+        ThresholdData thresholdData;
     }
 
     error UnsupportedOperation();
@@ -38,16 +46,36 @@ contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
     error ExternalRecoverNotAllowed();
 
     IStorageVerifier public storageVerifier;
-    address public slimKeyStore;
+    address public slimKeyStoreAddress;
     uint256 public constant SLIM_KEYSTORE_OWNERS_SLOT = 0;
+    uint256 public constant SLIM_KEYSTORE_THRESHOLD_SLOT = 2;
 
     constructor(IStorageVerifier _storageVerifier, address _slimKeyStore) {
         storageVerifier = _storageVerifier;
-        slimKeyStore = _slimKeyStore;
+        slimKeyStoreAddress = _slimKeyStore;
     }
 
-    function getKeyStoreOwnersSlot(address account, address owner) public pure returns (uint256) {
-        return uint256(keccak256(abi.encode(owner, keccak256(abi.encode(account, SLIM_KEYSTORE_OWNERS_SLOT)))));
+    /**
+     * @dev This function is called to get the owners slot for a given account and owner
+     *
+     * @param account The account to get the owners slot
+     * @param prevOwner The previous owner to get the owners slot for
+     *
+     * @return The owners slot for the given account and owner
+     */
+    function getKeyStoreOwnersSlot(address account, address prevOwner) public pure returns (uint256) {
+        return uint256(keccak256(abi.encode(prevOwner, keccak256(abi.encode(account, SLIM_KEYSTORE_OWNERS_SLOT)))));
+    }
+
+    /**
+     * @dev This function is called to get the threshold slot for a given account
+     *
+     * @param account The account to get the threshold slot for
+     *
+     * @return The threshold slot for the given account
+     */
+    function getKeyStoreThresholdSlot(address account) public pure returns (uint256) {
+        return uint256(keccak256(abi.encode(account, SLIM_KEYSTORE_THRESHOLD_SLOT)));
     }
 
     /**
@@ -90,41 +118,62 @@ contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
         override
         returns (ValidationData)
     {
-        SignatureData calldata data = _decodeUserOpSignature(userOp.signature);
+        CrosschainValidationData calldata data = _decodeUserOpSignature(userOp.signature);
+        if (slimKeyStoreAddress != data.account.accountAddress) revert InvalidTargetAccount();
 
-        StorageProofData calldata storageProofData = data.storageProofData;
+        bool isAccountValid = storageVerifier._verifyAccount(data.account, data.accountProof);
+        if (!isAccountValid) return VALIDATION_FAILED;
 
-        if (storageProofData.chainId != block.chainid) revert InvalidChainId();
+        // Verify threshold storage proof
+        ThresholdData calldata thresholdData = data.thresholdData;
 
-        if (slimKeyStore != storageProofData.account.accountAddress) revert InvalidTargetAccount();
-
-        MPT.StorageSlot memory ownersSlot = MPT.StorageSlot({
-            position: getKeyStoreOwnersSlot(userOp.sender, storageProofData.owner),
-            value: storageProofData.slotValue
+        MPT.StorageSlot memory thresholdSlot = MPT.StorageSlot({
+            position: getKeyStoreThresholdSlot(userOp.sender),
+            value: thresholdData.thresholdSlotValue
         });
 
-        // Verify the Merkle proof which ensure the provided data are valid
-        bool isValid = storageVerifier._verifyStorage(
-            storageProofData.account, ownersSlot, storageProofData.accountProof, storageProofData.storageProof
-        );
+        bool isThresholdValid =
+            storageVerifier._verifyStorageSlot(data.account, thresholdSlot, thresholdData.thresholdStorageProof);
+        if (!isThresholdValid) return VALIDATION_FAILED;
+        if (data.ownerData.length < thresholdData.threshold) return VALIDATION_FAILED;
+        ////////////////////////////////////////////////////////////////
 
-        if (!isValid) return VALIDATION_FAILED;
+        // Verify owners storage proofs
+        address[] memory verifiedOwners = new address[](thresholdData.threshold);
+        uint256 validSignatures;
 
-        bytes calldata masterOwnerSignature = data.signature;
+        for (uint256 i = 0; i < data.ownerData.length; i++) {
+            OwnerData calldata ownerData = data.ownerData[i];
 
-        // Try catch to enable simulation with a mock signature
-        try this.recoverSigner(userOpHash, masterOwnerSignature) returns (address recoveredSigner) {
-            address signer = recoveredSigner;
+            MPT.StorageSlot memory ownersSlot = MPT.StorageSlot({
+                position: getKeyStoreOwnersSlot(userOp.sender, ownerData.prevOwner),
+                value: ownerData.ownerSlotValue
+            });
 
-            if (signer != storageProofData.owner) return VALIDATION_FAILED;
-        } catch {
-            return VALIDATION_FAILED;
+            bool isOwnerValid =
+                storageVerifier._verifyStorageSlot(data.account, ownersSlot, ownerData.ownerStorageProof);
+            if (!isOwnerValid) return VALIDATION_FAILED;
+
+            try this.recoverSigner(userOpHash, ownerData.signature) returns (address recoveredSigner) {
+                if (recoveredSigner != ownerData.owner) return VALIDATION_FAILED;
+
+                for (uint256 j = 0; j < validSignatures; j++) {
+                    if (verifiedOwners[j] == recoveredSigner) return VALIDATION_FAILED;
+                }
+
+                verifiedOwners[validSignatures] = recoveredSigner;
+                validSignatures++;
+            } catch {
+                return VALIDATION_FAILED;
+            }
         }
+        ////////////////////////////////////////////////////////////////
+
+        if (validSignatures < thresholdData.threshold) return VALIDATION_FAILED;
 
         return VALIDATION_SUCCESS;
     }
 
-    // Add external function for use in try-catch
     function recoverSigner(bytes32 hash, bytes calldata signature) external view returns (address) {
         if (msg.sender != address(this)) revert ExternalRecoverNotAllowed();
         if (signature.length != 65) revert InvalidSignatureLength();
@@ -147,7 +196,11 @@ contract CrossChainValidator is ERC7579ValidatorBase, IValidationModule {
         }
     }
 
-    function _decodeUserOpSignature(bytes calldata signature) internal pure returns (SignatureData calldata out) {
+    function _decodeUserOpSignature(bytes calldata signature)
+        internal
+        pure
+        returns (CrosschainValidationData calldata out)
+    {
         /// @solidity memory-safe-assembly
         assembly {
             out := signature.offset

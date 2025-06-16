@@ -1,7 +1,7 @@
 {
   "name": "@cometh/slim-keystore",
   "version": "1.0.0",
-  "description": "cometh 4337 contracts",
+  "description": "cometh keystore contracts",
   "private": true,
   "scripts": {
     "clean": "forge clean",
