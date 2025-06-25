@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import { MPT } from "./MPT.sol";
 import { IStorageVerifier } from "../interfaces/IStorageVerifier.sol";
 import { StateRootStorage } from "@cometh/state-root-bridger/StateRootStorage.sol";
-import { console } from "forge-std/console.sol";
 
 contract StorageVerifier is IStorageVerifier {
     StateRootStorage public blockStorage;
