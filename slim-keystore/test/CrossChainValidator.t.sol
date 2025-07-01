@@ -11,14 +11,18 @@ import { IEntryPoint, PackedUserOperation } from "modulekit/external/ERC4337.sol
 import { UserOperationLib } from "account-abstraction/core/UserOperationLib.sol";
 import { MPT } from "../src/lib/MPT.sol";
 import { SlimKeyStore } from "../src/SlimKeyStore.sol";
+import { console } from "forge-std/console.sol";
 
 contract MockStorageVerifier is IStorageVerifier {
-    function _verifyStorage(
-        MPT.Account memory account,
-        MPT.StorageSlot memory contractSlot,
-        bytes[] memory accountProof,
-        bytes[] memory storageProof
-    ) public view returns (bool) {
+    function _verifyAccount(MPT.Account memory account, bytes[] memory accountProof) external view returns (bool) {
+        return true;
+    }
+
+    function _verifyStorageSlot(MPT.Account memory account, MPT.StorageSlot memory slot, bytes[] memory storageProof)
+        external
+        view
+        returns (bool)
+    {
         return true;
     }
 }
@@ -35,17 +39,21 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
 
     // Test Addresses
     address internal childSafe = 0xce8F48b7EEBa6150B991fcb7497835c283242Ce6;
+    address internal SENTINEL_OWNERS = 0x0000000000000000000000000000000000000001;
+    uint256 internal chainId = 64;
 
     // Test Parameters
     uint256 public constant SLIM_KEYSTORE_OWNERS_SLOT = 0;
+    uint256 public constant SLIM_KEYSTORE_THRESHOLD_SLOT = 2;
     address internal target;
     uint256 internal value;
+    uint256 internal threshold = 1;
 
     function setUp() public {
         // Initialize testing environment
         init();
 
-        vm.chainId(64);
+        vm.chainId(chainId);
 
         // Deploy storage verifier with mock block storage
         storageVerifier = new MockStorageVerifier();
@@ -66,9 +74,10 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
 
     function _createMockStorageProofSignature(
         address _owner,
-        address _childSafe,
+        address _childAccount,
         bytes memory _signature,
-        uint256 _chainId
+        address accountAddress,
+        uint256 threshold
     ) internal view returns (bytes memory) {
         bytes[] memory accountProof = new bytes[](8);
         accountProof[0] =
@@ -94,27 +103,55 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
         storageProof[2] =
             hex"f7a020883b0dc80767b96cdd03b87dbf479a08eb7ffb2ec1a97be551bc0631e3e0d29594df2fcae11b124b963ce53566030c5dd7a199f751";
 
-        CrossChainValidator.StorageProofData memory storageProofData = CrossChainValidator.StorageProofData({
-            chainId: _chainId,
-            owner: _owner,
-            slotValue: uint256(
-                keccak256(abi.encode(address(slimKeyStore), keccak256(abi.encode(_childSafe, SLIM_KEYSTORE_OWNERS_SLOT))))
+        CrossChainValidator.ThresholdData memory thresholdData = CrossChainValidator.ThresholdData({
+            threshold: threshold,
+            thresholdSlotValue: uint256(
+                keccak256(
+                    abi.encode(address(slimKeyStore), keccak256(abi.encode(_childAccount, SLIM_KEYSTORE_THRESHOLD_SLOT)))
+                )
             ),
+            thresholdStorageProof: storageProof
+        });
+
+        CrossChainValidator.OwnerData memory ownerData = CrossChainValidator.OwnerData({
+            owner: _owner,
+            prevOwner: address(SENTINEL_OWNERS),
+            ownerSlotValue: uint256(
+                keccak256(
+                    abi.encode(address(slimKeyStore), keccak256(abi.encode(_childAccount, SLIM_KEYSTORE_OWNERS_SLOT)))
+                )
+            ),
+            ownerStorageProof: storageProof,
+            signature: _signature
+        });
+
+        CrossChainValidator.OwnerData[] memory ownerDataArray = new CrossChainValidator.OwnerData[](1);
+        ownerDataArray[0] = ownerData;
+
+        CrossChainValidator.CrosschainValidationData memory crosschainValidationData = CrossChainValidator
+            .CrosschainValidationData({
+            chainId: chainId,
             account: MPT.Account({
-                accountAddress: _owner,
+                accountAddress: address(accountAddress),
                 nonce: 1,
                 balance: 0,
                 storageRoot: 0xec0c59b72d4f5210067173cb65fa4a13f19887b49d536e3f088023a6a8c2005a,
                 codeHash: 0xd7d408ebcd99b2b70be43e20253d6d92a8ea8fab29bd3be7f55b10032331fb4c
             }),
             accountProof: accountProof,
-            storageProof: storageProof
+            ownerData: ownerDataArray,
+            thresholdData: thresholdData
         });
 
-        CrossChainValidator.SignatureData memory signatureData =
-            CrossChainValidator.SignatureData({ storageProofData: storageProofData, signature: _signature });
+        bytes memory correctSignatureLayout = abi.encode(
+            crosschainValidationData.chainId,
+            crosschainValidationData.account,
+            crosschainValidationData.accountProof,
+            crosschainValidationData.ownerData,
+            crosschainValidationData.thresholdData
+        );
 
-        return abi.encode(signatureData);
+        return correctSignatureLayout;
     }
 
     function _createMockUserOperation() internal pure returns (PackedUserOperation memory) {
@@ -132,20 +169,25 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
          });
     }
 
+    function _createMockECDSAsignature() internal view returns (bytes memory) {
+        // Create a mock ECDSA signature (65 bytes: r, s, v)
+        // This is a valid ECDSA signature format but with dummy values
+        return hex"1234567890123456789012345678901234567890123456789012345678901234" // r
+        hex"5678901234567890123456789012345678901234567890123456789012345678" // s
+        hex"1c"; // v (28 = 0x1c);
+    }
+
     function test_InvalidCrossChainValidationParentAddress() public {
         // Prepare mock user operation
         PackedUserOperation memory userOp = _createMockUserOperation();
         userOp.sender = childSafe;
 
-        // Create a mock ECDSA signature (65 bytes: r, s, v)
-        // This is a valid ECDSA signature format but with dummy values
-        bytes memory mockECDSAsignature = hex"1234567890123456789012345678901234567890123456789012345678901234" // r
-            hex"5678901234567890123456789012345678901234567890123456789012345678" // s
-            hex"1c"; // v (28 = 0x1c)
+        bytes memory mockECDSAsignature = _createMockECDSAsignature();
 
         // Create mock signature with wrong parent
-        bytes memory mockSignature =
-            _createMockStorageProofSignature(makeAddr("wrong_parent"), childSafe, mockECDSAsignature, 64);
+        bytes memory mockSignature = _createMockStorageProofSignature(
+            makeAddr("owner"), childSafe, mockECDSAsignature, makeAddr("wrong_address"), threshold
+        );
         userOp.signature = mockSignature;
 
         // Expect a revert due to parent mismatch
@@ -153,14 +195,39 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
         validator.validateUserOp(userOp, keccak256("user_op_hash"));
     }
 
+    function test_InvalidThresholdData() public {
+        // Prepare mock user operation
+        PackedUserOperation memory userOp = _createMockUserOperation();
+        userOp.sender = childSafe;
+
+        uint256 threshold = 2;
+
+        bytes memory mockECDSAsignature = _createMockECDSAsignature();
+
+        // Create mock storage proof signature
+        bytes memory mockSignature = _createMockStorageProofSignature(
+            makeAddr("owner"), childSafe, mockECDSAsignature, address(slimKeyStore), threshold
+        );
+        userOp.signature = mockSignature;
+
+        // Validate user operation
+        vm.prank(address(instance.aux.entrypoint));
+        uint256 validationResult = validator.validateUserOp(0, userOp, keccak256("user_op_hash"));
+
+        assertEq(validationResult, 1, "User operation should be invalid");
+    }
+
     function test_InvalidEOAsigLength() public {
         // Prepare mock user operation
         PackedUserOperation memory userOp = _createMockUserOperation();
         userOp.sender = childSafe;
 
-        // Create mock storage proof signature
         bytes memory mockSignature = _createMockStorageProofSignature(
-            address(slimKeyStore), childSafe, "0x0000000000000000000000000000000000000000000000000000", 64
+            makeAddr("owner"),
+            childSafe,
+            "0x0000000000000000000000000000000000000000000000000000",
+            address(slimKeyStore),
+            threshold
         );
         userOp.signature = mockSignature;
 
@@ -172,19 +239,14 @@ contract CrossChainValidatorLZTest is RhinestoneModuleKit, Test {
     }
 
     function test_InvalidEOAsig() public {
-        // Prepare mock user operation
         PackedUserOperation memory userOp = _createMockUserOperation();
         userOp.sender = childSafe;
 
-        // Create a mock ECDSA signature (65 bytes: r, s, v)
-        // This is a valid ECDSA signature format but with dummy values
-        bytes memory mockECDSAsignature = hex"1234567890123456789012345678901234567890123456789012345678901234" // r
-            hex"5678901234567890123456789012345678901234567890123456789012345678" // s
-            hex"1c"; // v (28 = 0x1c)
+        bytes memory mockECDSAsignature = _createMockECDSAsignature();
 
-        // Create mock storage proof signature
-        bytes memory mockSignature =
-            _createMockStorageProofSignature(address(slimKeyStore), childSafe, mockECDSAsignature, 64);
+        bytes memory mockSignature = _createMockStorageProofSignature(
+            makeAddr("owner"), childSafe, mockECDSAsignature, address(slimKeyStore), threshold
+        );
         userOp.signature = mockSignature;
 
         // Validate user operation
